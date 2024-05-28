@@ -11,6 +11,6 @@ Although GitHub and PyPI provide statistics about users' or organizations' repos
 ## Conceptual Model
 The primary datasets and APIs that will be used are the PyPI dataset from Google BigQuery and the GitHub API. This model will integrate data from these sources to provide comprehensive insights into Python package usage and repository development.
 
-![alt text](assets/conceptual_model_gh_pypi.png)
+![conceptual_model](assets/conceptual_model_gh_pypi.png)
 
 
