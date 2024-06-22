@@ -1,0 +1,13 @@
+gh_events:
+  target: dev
+  outputs:
+    dev:
+      type: trino
+      method: none 
+      user: admin
+      password:
+      host: trino
+      database: iceberg
+      schema: "{{ env_var('DBT_SCHEMA')}}"
+      port: 8080
+      threads: 4

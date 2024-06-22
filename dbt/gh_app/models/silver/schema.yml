@@ -1,0 +1,18 @@
+models:
+  - name: fct_summary_issues
+    description: >
+      Contains a cumulative count of issues in the last 7 days
+    columns:
+      - name: id
+        description: "Unique identifier for the issue."
+        data_tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: repo
+        description: "Name of the repository."
+      - name: created_at
+        description: "Timestamp when the issue was created."
+      - name: last_7_days
+        description: Cumulative count of issues in the last 7 days.
