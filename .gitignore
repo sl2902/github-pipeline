@@ -47,3 +47,9 @@ pg_db/*
 
 # trino
 **etc
+
+# ignore duplicate spark container
+**spark_v2**
+
+# ignore jars files in containers/spark/jars
+containers/spark/jars/*.jar
