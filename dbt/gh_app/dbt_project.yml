@@ -33,4 +33,7 @@ vars:
 # files using the `{{ config(...) }}` macro.
 models:
   gh_events:
-    +materialized: table
+    commits:
+      +materialized: table
+    issues:
+      +materialized: table
