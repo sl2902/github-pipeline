@@ -22,3 +22,25 @@ models:
         description: "Month of interest."
       - name: num_issues
         description: "Num of issues updated in the last month."
+  
+  - name: fct_all_time_issues_trend
+    description: >
+      Contains an aggregate count of issues over all time
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: created_at
+        description: "Timestamp when the issue was created."
+      - name: num_issues
+        description: "Num of issues over time."
+  
+  - name: fct_num_labels_in_issues
+    description: >
+      Contains an aggregate count of labels given to issues by repo over all time
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: label
+        description: "Name of the issue."
+      - name: num_label
+        description: "Num of labels per repo over time."

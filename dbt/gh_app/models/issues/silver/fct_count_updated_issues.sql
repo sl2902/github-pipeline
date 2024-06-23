@@ -13,7 +13,7 @@ with
         where 
             extract(month from cast(created_at as date)) = extract(month from current_date) - 1
         and
-            extract(year from cast(created_at as date)) = extract(yeaar from current_date)
+            extract(year from cast(created_at as date)) = extract(year from current_date)
         group by
             repo,
             date_diff('day', created_at, updated_at),

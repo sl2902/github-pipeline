@@ -1,0 +1,58 @@
+
+version: 2
+
+
+models:
+  - name: fct_commits
+    description: >
+      Contains commits by users to various GitHub repos
+    columns:
+    - name: owner
+      description: "Owner of the repository."
+    - name: repo
+      description: "Name of the repository."
+    - name: commit_sha
+      description: "SHA hash of the commit."
+      data_tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+    - name: url
+      description: "URL of the commit."
+    - name: comment_count
+      description: "Number of comments on the commit."
+    - name: commit_message
+      description: "Message associated with the commit."
+    - name: author_id
+      description: "ID of the author of the commit."
+    - name: author_login
+      description: "Login name of the author of the commit."
+    - name: author_type
+      description: "Type of the author of the commit (e.g., User, Bot)."
+    - name: author_name
+      description: "Name of the author of the commit."
+    - name: commit_author_date
+      description: "Date when the commit was authored."
+    - name: commit_author_email
+      description: "Email of the author of the commit."
+    - name: committer_id
+      description: "ID of the committer of the commit."
+    - name: committer_login
+      description: "Login name of the committer of the commit."
+    - name: committer_type
+      description: "Type of the committer of the commit (e.g., User, Bot)."
+    - name: committer_name
+      description: "Name of the committer of the commit."
+    - name: commit_committer_date
+      description: "Date when the commit was committed."
+    - name: commit_committer_email
+      description: "Email of the committer of the commit."
+    - name: commit_verification_reason
+      description: "Reason for the commit verification."
+    - name: commit_verification_verified
+      description: "Verification status of the commit."
+    - name: response
+      description: "Response associated with the commit (if any)."
+    - name: created_date
+      description: "Date when the record was created."

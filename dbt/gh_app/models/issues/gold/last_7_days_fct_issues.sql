@@ -8,6 +8,8 @@ with
             last_7_days as issue_count
         from
             {{ ref('fct_cumulative_issues') }}
+        where
+            created_at >= current_date - interval '7' day
     )
     select
         *

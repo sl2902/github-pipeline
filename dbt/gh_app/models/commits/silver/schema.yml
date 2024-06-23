@@ -1,0 +1,45 @@
+
+models:  
+  - name: fct_all_time_author_commits_trend
+    description: >
+      Contains an aggregate count of author commits over all time
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: commit_author_date
+        description: "Timestamp when the commit was created by author."
+      - name: num_commits
+        description: "Number of commits over time."
+  
+  - name: fct_all_time_committer_commits_trend
+    description: >
+      Contains an aggregate count of committer commits over all time
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: committer_commit_date
+        description: "Timestamp when the commit was created by author."
+      - name: num_commits
+        description: "Number of commits over time."
+  
+  - name: fct_num_author_commits
+    description: >
+      Contains an aggregate count of commits by authors and repo
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: author_name
+        description: "Name of the author."
+      - name: num_commits
+        description: "Number of commits over time."
+  
+  - name: fct_num_committer_commits
+    description: >
+      Contains an aggregate count of commits by committer and repo
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: committer_name
+        description: "Name of the committer."
+      - name: num_commits
+        description: "Number of commits over time."
