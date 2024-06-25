@@ -22,7 +22,7 @@ ice_tables = {
                     commit_verification_reason STRING,
                     commit_verification_verified BOOLEAN,
                     response STRING,
-                    created_date TIMESTAMP
+                    load_date TIMESTAMP
                )
                using iceberg
                location '{}'
@@ -55,10 +55,32 @@ ice_tables = {
                     rocket INT,
                     eyes INT,
                     response STRING,
-                    created_date TIMESTAMP
+                    load_date TIMESTAMP
                 )
                 using iceberg
                 location '{}'
                 partitioned by (owner, days(created_at));
+                """,
+    "base_repo": """
+                create table if not exists bronze.base_repo (
+                    stat_id BIGINT,
+                    owner STRING,
+                    repo STRING,
+                    fork_count INT,
+                    size_count INT,
+                    watchers_count INT,
+                    open_issues_count INT,
+                    network_count INT,
+                    stargazers_count INT,
+                    subscribers_count INT,
+                    created_at TIMESTAMP,
+                    pushed_at TIMESTAMP,
+                    updated_at TIMESTAMP,
+                    response STRING,
+                    load_date TIMESTAMP
+                )
+                using iceberg
+                location '{}'
+                partitioned by (owner, days(updated_at));
                 """
 }

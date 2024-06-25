@@ -33,7 +33,7 @@ spark_schemas = {
                     StructField("commit_verification_reason", StringType(), True),
                     StructField("commit_verification_verified", BooleanType(), True),
                     StructField("response", StringType(), True),
-                    StructField("created_date", TimestampType(), True)
+                    StructField("load_date", TimestampType(), True)
                 ]),
     "issues":   StructType([
                     StructField("owner", StringType(), True),
@@ -61,7 +61,24 @@ spark_schemas = {
                     StructField("rocket", IntegerType(), True),
                     StructField("eyes", IntegerType(), True),
                     StructField("response", StringType(), True),
-                    StructField("created_date", TimestampType(), True)
-    ])
+                    StructField("load_date", TimestampType(), True)
+    ]),
+    "base_repo":StructType([
+                    StructField("stat_id", IntegerType(), False),
+                    StructField("owner", StringType(), True),
+                    StructField("repo", StringType(), True),
+                    StructField("fork_count", IntegerType(), True),
+                    StructField("size_count", IntegerType(), True),
+                    StructField("watchers_count", IntegerType(), True),
+                    StructField("open_issues_count", IntegerType(), True),
+                    StructField("network_count", IntegerType(), True),
+                    StructField("stargazers_count", IntegerType(), True),
+                    StructField("subscribers_count", IntegerType(), True),
+                    StructField("created_at", TimestampType(), True),
+                    StructField("pushed_at", TimestampType(), True),
+                    StructField("updated_at", TimestampType(), True),
+                    StructField("response", StringType(), True),
+                    StructField("load_date", TimestampType(), True)
+])
 
 }
