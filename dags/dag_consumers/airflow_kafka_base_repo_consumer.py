@@ -48,9 +48,9 @@ default_args = {
     "max_active_runs": 1
 }
 dag = DAG(
-    'consume_commits_from_kafka',
+    'consume_base_repo_from_kafka',
     default_args=default_args,
-    description="Task consumes commits from Kafka",
+    description="Task consumes base_repo from Kafka",
     schedule_interval=None,
     # start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
@@ -73,51 +73,29 @@ run_date = "{{ dag_run.conf['execution_date'] if dag_run and dag_run.conf and 'e
 #     dag=dag
 # )
 
-# kafka_commits_consumer = SparkSubmitOperator(
-#     task_id="kafka_commits_consumer",
-#     application=f"./gh_app/dags/kafka_consumer/pyspark_consume_from_kafka.py",
-#     deploy_mode="client",
-#     conn_id='spark-conn',
-#     application_args=["--topic", "commits"],
-#     dag=dag
-# )
-
-# kafka_issues_consumer = SparkSubmitOperator(
-#     task_id="kafka_issues_consumer",
-#     application=f"{os.getenv('AIRFLOW_HOME')}/dags/kafka_consumer/pyspark_consume_from_kafka.py",
-#     deploy_mode="client",
-#     conn_id='spark-conn',
-#     application_args=["--topic", "issues"],
-#     dag=dag
-# )
 
 SSHHook = SSHHook(ssh_conn_id="ssh-conn", key_file="/home/airflow/.ssh/id_ecdsa", cmd_timeout=None)
 
-kafka_commits_consumer = SSHOperator(
-    task_id="kafka_commits_consumer",
+
+kafka_base_repo_consumer = SSHOperator(
+    task_id="kafka_base_repo_consumer",
+    # ssh_conn_id="ssh-conn",
     command=f"""
     export PYTHONPATH=/opt/spark:/opt/spark/kafka_consumer/:/opt/spark/utils/:$PYTHONPATH && 
     export BOOTSTRAP_SERVER={os.getenv('BOOTSTRAP_SERVER')} &&
     export AWS_ACCESS_KEY_ID=minio &&
     export AWS_SECRET_ACCESS_KEY=minio123 &&
     export AWS_REGION=us-east-1 &&
-    /opt/spark/bin/spark-submit --master spark://spark-master:7077 --deploy-mode client /opt/spark/kafka_consumer/pyspark_consume_from_kafka.py --topic commits
+    /opt/spark/bin/spark-submit --master spark://spark-master:7077 --deploy-mode client /opt/spark/kafka_consumer/pyspark_consume_from_kafka.py --topic base_repo
     """,
     ssh_hook=SSHHook,
     dag=dag
 )
 
-# all_success = DummyOperator(
-#         task_id='all_task_success',
-#         dag=dag,
-#         trigger_rule=TriggerRule.ALL_SUCCESS,
-# )
-
-trigger_dbt_commits_model = TriggerDagRunOperator(
-    task_id="trigger_dbt_commits_model",
-    trigger_dag_id="gh_app_commits_models",
+trigger_dbt_base_repo_model = TriggerDagRunOperator(
+    task_id="trigger_dbt_base_repo_model",
+    trigger_dag_id="gh_app_base_repo_models",
     dag=dag
 )
 
-
-kafka_commits_consumer >> trigger_dbt_commits_model
+kafka_base_repo_consumer >> trigger_dbt_base_repo_model
