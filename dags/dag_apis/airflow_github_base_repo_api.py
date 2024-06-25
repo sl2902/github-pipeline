@@ -35,9 +35,9 @@ default_args = {
     "max_active_runs": 1
 }
 dag = DAG(
-    'gh_rest_issues_api',
+    'gh_rest_base_repo_api',
     default_args=default_args,
-    description="Task queries GitHub REST API endpoint - issues",
+    description="Task queries GitHub REST API endpoint - /",
     schedule_interval="@hourly",
     start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
@@ -47,17 +47,17 @@ dag = DAG(
 run_date = "{{ dag_run.conf['execution_date'] if dag_run and dag_run.conf and 'execution_date' in dag_run.conf else ds_nodash }}"
 
 
-fetch_issues = PythonOperator(
-    task_id="fetch_issues",
+fetch_base_repo = PythonOperator(
+    task_id="fetch_base_repo",
     python_callable=generate_concurrent_requests,
-    op_args=["issues"],
+    op_args=["/"],
     dag=dag
 )
 
-trigger_kafka_issues_producer = TriggerDagRunOperator(
-    task_id="trigger_kafka_issues_producer",
-    trigger_dag_id="publish_issues_to_kafka",
+trigger_kafka_base_repo_producer = TriggerDagRunOperator(
+    task_id="trigger_kafka_base_repo_producer",
+    trigger_dag_id="publish_base_repo_to_kafka",
     dag=dag
 )
 
-fetch_issues >> trigger_kafka_issues_producer
+fetch_base_repo >> trigger_kafka_base_repo_producer

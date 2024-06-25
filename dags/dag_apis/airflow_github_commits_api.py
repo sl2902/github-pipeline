@@ -35,7 +35,7 @@ default_args = {
     "max_active_runs": 1
 }
 dag = DAG(
-    'commits_github_rest_api',
+    'gh_rest_commits_api',
     default_args=default_args,
     description="Task queries GitHub REST API endpoint - commits",
     schedule_interval="@hourly",
@@ -53,4 +53,16 @@ fetch_commits = PythonOperator(
     dag=dag
 )
 
-[fetch_commits]
+# all_success = DummyOperator(
+#         task_id='all_task_success',
+#         dag=dag,
+#         trigger_rule=TriggerRule.ALL_SUCCESS,
+# )
+
+trigger_kafka_commits_producer = TriggerDagRunOperator(
+    task_id="trigger_kafka_commits_producer",
+    trigger_dag_id="publish_commits_to_kafka",
+    dag=dag
+)
+
+fetch_commits >> trigger_kafka_commits_producer
