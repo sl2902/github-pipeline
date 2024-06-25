@@ -49,16 +49,18 @@ def date_encoder(data):
     if isinstance(data, (datetime, date)):
         return data.isoformat()
 
-def publish_to_kafka(endpoint: str):
+def publish_to_kafka(topic: str):
     """Publish the upstream data to Kafka topic"""
     logger.info("Query the upstream db")
-    arr = query_upstream_db(endpoint)
+    arr = query_upstream_db(topic)
     logger.info("Done querying upstream db")
     logger.info(f"Message to publish {len(arr)}")
     counter = 0
-    endpoint = "base_repo" if endpoint == "/" else endpoint
+    topic = "base_repo" if topic == "/" else topic
     producer = create_producer()
-    id_key = topic_keys[endpoint]["primary_key"]
+    id_key = topic_keys[topic].get("primary_key")
+    if id_key is None:
+        raise KeyError(f'Topic {topic} has no key defined. Is this expected?')
     for row in arr:
         # Create a dictionary from the row values
         try:
@@ -68,7 +70,7 @@ def publish_to_kafka(endpoint: str):
             continue
         # Produce to Kafka
         # logger.info(f"Counter {counter}")
-        producer.produce(topic=endpoint, key=str(json.loads(value)[id_key]).encode('utf8'), value=value, on_delivery=delivery_report)
+        producer.produce(topic=topic, key=str(json.loads(value)[id_key]).encode('utf8'), value=value, on_delivery=delivery_report)
         counter += 1
         # Flush every 1000 events
         if counter % 1000 == 0:
@@ -76,7 +78,7 @@ def publish_to_kafka(endpoint: str):
             producer.flush()
             logger.info(f"Published {counter} messages to Kafka topic")
     producer.flush()
-    logger.info(f"Data successfully published to Kafka topic {endpoint}")
+    logger.info(f"Data successfully published to Kafka topic {topic}")
 
 if __name__ == "__main__":
     publish_to_kafka("issues")
