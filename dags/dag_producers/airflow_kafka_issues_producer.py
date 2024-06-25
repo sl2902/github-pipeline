@@ -37,8 +37,8 @@ dag = DAG(
     'publish_issues_to_kafka',
     default_args=default_args,
     description="Task publishes issues to Kafka",
-    schedule_interval="@hourly",
-    start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
+    schedule_interval=None,
+    # start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
 )
 
@@ -53,4 +53,10 @@ kafka_issues_producer = PythonOperator(
     dag=dag
 )
 
-[kafka_issues_producer]
+trigger_kafka_issues_consumer = TriggerDagRunOperator(
+    task_id="trigger_kafka_issues_consumer",
+    trigger_dag_id="consume_issues_from_kafka",
+    dag=dag
+)
+
+kafka_issues_producer >> trigger_kafka_issues_consumer

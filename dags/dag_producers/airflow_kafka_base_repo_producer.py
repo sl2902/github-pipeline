@@ -34,9 +34,9 @@ default_args = {
     "max_active_runs": 1
 }
 dag = DAG(
-    'publish_commits_to_kafka',
+    'publish_base_repo_to_kafka',
     default_args=default_args,
-    description="Task publishes commits to Kafka",
+    description="Task publishes base_repo to Kafka",
     schedule_interval=None,
     # start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
@@ -45,23 +45,18 @@ dag = DAG(
 
 run_date = "{{ dag_run.conf['execution_date'] if dag_run and dag_run.conf and 'execution_date' in dag_run.conf else ds_nodash }}"
 
-kafka_commits_producer = PythonOperator(
-    task_id="kafka_commits_producer",
+
+kafka_base_repo_producer = PythonOperator(
+    task_id="kafka_base_repo_producer",
     python_callable=publish_to_kafka,
-    op_args=["commits"],
+    op_args=["/"],
     dag=dag
 )
 
-# all_success = DummyOperator(
-#         task_id='all_task_success',
-#         dag=dag,
-#         trigger_rule=TriggerRule.ALL_SUCCESS,
-# )
-
-trigger_kafka_commits_consumer = TriggerDagRunOperator(
-    task_id="trigger_kafka_commits_consumer",
-    trigger_dag_id="consume_commits_from_kafka",
+trigger_kafka_base_repo_consumer = TriggerDagRunOperator(
+    task_id="trigger_kafka_base_repo_consumer",
+    trigger_dag_id="consume_base_repo_from_kafka",
     dag=dag
 )
 
-kafka_commits_producer >> trigger_kafka_commits_consumer
+kafka_base_repo_producer >> trigger_kafka_base_repo_consumer
