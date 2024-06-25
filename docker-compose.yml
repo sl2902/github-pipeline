@@ -99,6 +99,7 @@ services:
     container_name: airflow-webserver
     ports:
       - "8080:8080"
+      - "8001:8001"
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 30s
@@ -519,6 +520,7 @@ services:
       - AWS_REGION=us-east-1
     networks:
       iceberg_net:
+    restart: always
     depends_on: 
       - minio 
       - hive-metastore 
