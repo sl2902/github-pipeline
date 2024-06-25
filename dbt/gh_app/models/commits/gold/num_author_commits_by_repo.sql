@@ -13,3 +13,6 @@ select
     *
 from
     final
+order by
+    repo,
+    num_commits desc

@@ -4,7 +4,7 @@ with
     summary as (
         select
             repo,
-            cast(commit_committer_date as date) as committer_commit_date,
+            cast(commit_committer_date as date) as commit_committer_date,
             count(*) as num_commits
         from
             {{ ref('fct_commits') }}

@@ -59,3 +59,7 @@ models:
         description: "Number of rocket reactions on the issue."
       - name: eyes
         description: "Number of eyes reactions on the issue."
+      - name: response
+        description: "The raw json string."
+      - name: load_date
+        description: "Load date."

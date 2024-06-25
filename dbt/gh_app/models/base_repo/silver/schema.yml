@@ -1,0 +1,31 @@
+models:  
+  - name: fct_base_repo_stats_summary
+    description: >
+      Contains a summary of repo stats
+    columns:
+      - name: repo
+        description: "Name of the repository."
+      - name: commit_author_date
+        description: "Timestamp when the commit was created by author."
+      - name: num_commits
+        description: "Number of commits over time."
+      - name: fork_count
+        description: "Number of forks of the repository"
+      - name: size_count
+        description: "Size of the repository"
+      - name: watchers_count
+        description: "Number of watchers of the repository"
+      - name: open_issues_count
+        description: "Number of open issues in the repository"
+      - name: network_count
+        description: "Number of networks of the repository"
+      - name: stargazers_count
+        description: "Number of stargazers of the repository"
+      - name: subscribers_count
+        description: "Number of subscribers to the repository"
+      - name: created_at
+        description: "Timestamp when the repository was created"
+      - name: pushed_at
+        description: "Timestamp when the commit was pushed"
+      - name: updated_at
+        description: "Timestamp when the repository was last updated"

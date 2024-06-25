@@ -54,5 +54,5 @@ models:
       description: "Verification status of the commit."
     - name: response
       description: "Response associated with the commit (if any)."
-    - name: created_date
-      description: "Date when the record was created."
+    - name: load_date
+      description: "Date when the record was loaded."

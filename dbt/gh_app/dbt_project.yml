@@ -37,3 +37,5 @@ models:
       +materialized: table
     issues:
       +materialized: table
+    base_repo:
+      +materialized: table

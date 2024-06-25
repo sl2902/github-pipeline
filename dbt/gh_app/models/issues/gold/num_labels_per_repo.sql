@@ -13,3 +13,6 @@ select
     *
 from
     final
+order by
+    label,
+    num_labels desc

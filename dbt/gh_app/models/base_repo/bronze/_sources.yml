@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: "{{ var('iceberg_catalog') }}"
+    schema: "{{ var('iceberg_schema') }}"
+    tables:
+      - name: base_repo
+
+    freshness:
+      warn_after:
+        count: 1
+        period: day
+      error_after:
+        count: 21
+        period: day

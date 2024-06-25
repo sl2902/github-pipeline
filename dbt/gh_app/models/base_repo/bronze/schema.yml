@@ -1,0 +1,38 @@
+version: 2
+
+
+models:
+  - name: fct_base_repo_stats
+    description: >
+      Contains stats about the repo.
+    columns:
+    - name: stat_id
+      description: "Repository ID from the GitHub API"
+    - name: owner
+      description: "Owner of the repository"
+    - name: repo
+      description: "Name of the repository"
+    - name: fork_count
+      description: "Number of forks of the repository"
+    - name: size_count
+      description: "Size of the repository"
+    - name: watchers_count
+      description: "Number of watchers of the repository"
+    - name: open_issues_count
+      description: "Number of open issues in the repository"
+    - name: network_count
+      description: "Number of networks of the repository"
+    - name: stargazers_count
+      description: "Number of stargazers of the repository"
+    - name: subscribers_count
+      description: "Number of subscribers to the repository"
+    - name: created_at
+      description: "Timestamp when the repository was created"
+    - name: pushed_at
+      description: "Timestamp when the commit was pushed"
+    - name: updated_at
+      description: "Timestamp when the repository was last updated"
+    - name: response
+      description: "The raw json string"
+    - name: load_date
+      description: "Date when the data was loaded"
