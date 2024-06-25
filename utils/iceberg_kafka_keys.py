@@ -6,5 +6,9 @@ topic_keys = {
     "issues": {
         "primary_key": "id",
         "partition_keys": ["owner", "days(created_at)"]
+    },
+    "base_repo": {
+        "primary_key": "stat_id",
+        "partition_keys": ["owner", "days(updated_at)"]
     }
 }

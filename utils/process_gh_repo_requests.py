@@ -26,7 +26,7 @@ base_url = "https://api.github.com/repos"
 # repo = "trino"
 # endpoint = "issues"
 repositories = [
-    ("trino", "trinodb"),
+    ("iceberg", "apache"),
     ("delta", "delta-io"),
     ("hudi", "apache")
 ]
