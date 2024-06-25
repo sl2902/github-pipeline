@@ -20,12 +20,12 @@ default_args = {
 
 @dag(
     default_args=default_args,
-    description="Create issues models in Trino",
+    description="Create base_repo models in Trino",
     schedule_interval=None,
     # start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
 )
-def gh_app_issues_models():
+def gh_app_base_repo_models():
     run_date = "{{ dag_run.conf['execution_date'] if dag_run and dag_run.conf and 'execution_date' in dag_run.conf else ds_nodash }}"
 
     run_dbt_deps = BashOperator(
@@ -34,15 +34,15 @@ def gh_app_issues_models():
         cwd=DBT_CWD
     )
     # runs models for all layers - bronze, silver and gold
-    dbt_run_issues = BashOperator(
-        task_id='dbt_run_issues',
-        bash_command='dbt run -s path:models/issues/',
+    dbt_run_base_repo = BashOperator(
+        task_id='dbt_run_base_repo',
+        bash_command='dbt run -s path:models/base_repo/',
         cwd=DBT_CWD
     )
 
     (
         run_dbt_deps \
-        >> dbt_run_issues
+        >> dbt_run_base_repo
     )
 
-gh_app_issues_models()
+gh_app_base_repo_models()

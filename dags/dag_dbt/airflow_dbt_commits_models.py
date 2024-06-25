@@ -22,7 +22,7 @@ default_args = {
     default_args=default_args,
     description="Create commits models in Trino",
     # schedule_interval="@daily",
-    start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
+    # start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
 )
 def gh_app_commits_models():
