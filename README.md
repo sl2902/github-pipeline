@@ -13,4 +13,8 @@ The primary datasets and APIs that will be used are the PyPI dataset from Google
 
 ![conceptual_model](assets/conceptual_model_gh_pypi.png)
 
+# High-level architecture
+![High level architecture](assets/architecture.png)
+
+
 
