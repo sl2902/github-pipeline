@@ -19,9 +19,9 @@ The primary datasets and APIs that will be used are the PyPI dataset from Google
 # Datasource
 The source of the data is GitHub Rest APIs. The following APIs are used:
 
-/repos/{owner}/{repo}/commits - List commits. Can query 5000 responses per hour
-/repos/{owner}/{repo}/issues - List issues in a repository. Only open issues will be listed. Can query 5000 responses per hour
-/repos/{owner}/{repo}/ - List summary statistics for a repository.
+- /repos/{owner}/{repo}/commits - List commits. Can query 5000 responses per hour
+- /repos/{owner}/{repo}/issues - List issues in a repository. Only open issues will be listed. Can query 5000 responses per hour
+- /repos/{owner}/{repo}/ - List summary statistics for a repository.
 
 
 # URL and port
