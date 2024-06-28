@@ -16,6 +16,9 @@ The primary datasets and APIs that will be used are the PyPI dataset from Google
 # High-level architecture
 ![High level architecture](assets/architecture.png)
 
+# dbt model lineage
+![dbt model lineage](assets/GitHub_dbt_model_lineage.png)
+
 # Datasource
 The source of the data is GitHub Rest APIs. The following APIs are used:
 
@@ -27,11 +30,12 @@ The source of the data is GitHub Rest APIs. The following APIs are used:
 # URL and port
 | Service Name       | URL                   | Port |
 |--------------------|-----------------------|------|
-| Spark Master       | http://localhost:8090 | 9090 |
+| Spark Master       | http://localhost:4040 | 4040 |
 | Spark History      | http://localhost:18080| 18080|
 | MinIO              | http://localhost:9000 | 9000 |
 | Airflow Webserver  | http://localhost:8080 | 8080 |
 | Trino              | http://localhost:1080 | 1080 |
+| Streamlit          | http://localhost:8501 | 8501 |
 
 
 # Steps to reproduce
@@ -111,6 +115,11 @@ make dag_run_commits_pipeline
 ```shell
 make dag_run_issues_pipeline
 ```
+
+7.4 Launch Streamlit dashboard:
+```shell
+ http://localhost:8501
+ ```
 
 
 
