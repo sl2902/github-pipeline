@@ -19,6 +19,7 @@ x-airflow-common:
     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     POSTGRES_PORT: ${PORT}
     POSTGRES_HOST: ${POSTGRES_HOST}
+    S3_LOCATION: ${S3_LOCATION}
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
@@ -46,9 +47,9 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/utils:/opt/airflow/utils
     - ${AIRFLOW_PROJ_DIR:-.}/kafka_consumer:/opt/airflow/kafka_consumer
     - ${AIRFLOW_PROJ_DIR:-.}/kafka_producer:/opt/airflow/kafka_producer
-    - ${AIRFLOW_PROJ_DIR:-.}/gh_app/logs:/opt/airflow/logs
-    - ${AIRFLOW_PROJ_DIR:-.}/gh_app/config:/opt/airflow/config
-    - ${AIRFLOW_PROJ_DIR:-.}/gh_app/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
+    - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
+    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ${DBT_PROFILE_DIR:-./dbt/gh_app/profiles.yml}:/home/airflow/.dbt/profiles.yml
     - ${DBT_FOLDER_PATH:-./dbt/gh_app}:/opt/airflow/dags/dbt/gh_app
   depends_on:
@@ -304,7 +305,7 @@ services:
       - "5433:5432"
     volumes:
       - upstream-db-volume:/var/lib/postgresql/data
-      - ./gh_app/ddl/gh_ddl.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./ddl/gh_ddl.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       iceberg_net:
 
@@ -397,6 +398,8 @@ services:
       - minio
     volumes:
       - ./kafka_consumer:/opt/spark/kafka_consumer:rw
+      - ./kafka_producer:/opt/spark/kafka_producer:rw
+      - ./spark_batch:/opt/spark/spark_batch:rw
       - ./utils:/opt/spark/utils/:rw
       - ./warehouse:/home/iceberg/warehouse:rw
       - spark-logs:/opt/spark/spark-events:rw
@@ -405,8 +408,14 @@ services:
       - AWS_SECRET_ACCESS_KEY=minio123
       - AWS_REGION=us-east-1
       - BOOTSTRAP_SERVER=${BOOTSTRAP_SERVER}
-      - SPARK_EXECUTOR_MEMORY=4G
-      - SPARK_DRIVER_MEMORY=2G
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - S3_LOCATION=${S3_LOCATION}
+      - SPARK_EXECUTOR_MEMORY=4g
+      - SPARK_DRIVER_MEMORY=2g
       - SPARK_EXECUTOR_CORES=2
       - SPARK_DRIVER_CORES=1
     ports:
@@ -427,6 +436,8 @@ services:
       - rest
     volumes:
       - ./kafka_consumer:/opt/spark/kafka_consumer:rw
+      - ./kafka_producer:/opt/spark/kafka_producer:rw
+      - ./spark_batch:/opt/spark/spark_batch:rw
       - ./utils:/opt/spark/utils/:rw
       - spark-logs:/opt/spark/spark-events:rw
     env_file:
@@ -436,8 +447,14 @@ services:
       - AWS_SECRET_ACCESS_KEY=minio123
       - AWS_REGION=us-east-1
       - BOOTSTRAP_SERVER=${BOOTSTRAP_SERVER}
-      - SPARK_EXECUTOR_MEMORY=4G
-      - SPARK_DRIVER_MEMORY=2G
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${PORT}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - S3_LOCATION=${S3_LOCATION}
+      - SPARK_EXECUTOR_MEMORY=4g
+      - SPARK_DRIVER_MEMORY=2g
       - SPARK_EXECUTOR_CORES=2
       - SPARK_DRIVER_CORES=1
     networks:
@@ -525,8 +542,22 @@ services:
       - minio 
       - hive-metastore 
       - rest
-  
+
+  streamlit:
+    build:
+      context: ./containers/streamlit
+      dockerfile: Dockerfile
+    container_name: streamlit
+    ports:
+      - 8501:8501 
+    networks:
+      iceberg_net:
+    volumes:
+      - ./streamlit_app:/app/streamlit_app
+    entrypoint: ["streamlit", "run", "streamlit_app/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+
   # trino-setup:
+
   #   build: ./containers/trino/
   #   container_name: trino-cli
   #   restart: "no"
