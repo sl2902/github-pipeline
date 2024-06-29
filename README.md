@@ -71,6 +71,8 @@ the commiter is GitHub
 
 ![Number of days taken to update an issue](assets/number_days_to_update_issues.png)
 
+![Top 3 labels](assets/top3_labels.png)
+
 </details>
 
 
