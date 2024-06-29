@@ -32,10 +32,38 @@ The source of the data is GitHub Rest APIs. The following APIs are used:
 Three repos were analyzed: Apache Iceberg, Apache Hudi and Delta-io Delta
 <details>
 <summary>Summary statistics for repos</summary>
+
 Provides a snapshot for various repository metrics such as fork_count, size, watchers_count, stargazers_count and subscribers_count
 
 ![summary stats](assets/summary_stats_repo.png)
 </details>
+
+<details>
+<summary>Count of commits by authors - all time</summary>
+A line chart comparing the three repositories by number of commits by authors for all time
+
+![Count of author commits - all time](assets/count_author_commits_all_time.png)
+
+A line chart comparing the three repositories by number of commits by commiters for all time.
+
+Note - Here the charts are almost identical as the commit_author_date nd commit_committer_date are identical when
+the commiter is GitHub
+
+![Count of commiter commits - all time](assets/count_committer_commits_all_time.png)
+
+Top 3 authors by number of commits
+
+![Top 3 authors](assets/top3_authors_commits.png)
+
+Top 3 committers by number of commits
+
+![Top 3 committers](assets/top3_committers_commits.png)
+
+
+![summary stats](assets/summary_stats_repo.png)
+</details>
+
+
 
 # URL and port
 | Service Name       | URL                   | Port | User   | Password |
