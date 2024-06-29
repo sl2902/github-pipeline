@@ -84,7 +84,7 @@ the commiter is GitHub
 | Spark History      | http://localhost:18080| 18080|        |          |
 | MinIO              | http://localhost:9000 | 9000 | minio  | minio123 |
 | Airflow Webserver  | http://localhost:8080 | 8080 | airflow| airflow  |
-| Trino              | http://localhost:1080 | 1080 | admins |          |
+| Trino              | http://localhost:1080 | 1080 | admin  |          |
 | Streamlit          | http://localhost:8501 | 8501 |        |          |
 
 
