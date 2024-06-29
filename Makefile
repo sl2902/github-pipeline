@@ -4,11 +4,49 @@ include .env
 create_raw_tables: ## Create Postgres db and ddl for raw data
 	psql -U postgres -d postgres -a -f capstone/gh_app/utils/create_gh_raw_tables.sql
 
+docker_build: ## Build Docker containers
+	@docker compose build --no-cache
+
 docker_up: ## Start Docker
 	@docker compose up -d
 
-docker_down: ## Turn Docker down
+docker_down: ## Stop Docker
 	@docker compose down
+
+dag_list: ## List DAGs
+	@docker-compose run airflow-cli airflow dags list
+
+dag_run_base_repo_pipeline: ## Run base_repo pipeline
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_base_repo_api
+	@docker-compose run airflow-cli airflow dags unpause gh_rest_base_repo_api
+	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_base_repo_to_iceberg
+	@docker-compose run airflow-cli airflow dags unpause gh_app_base_repo_models
+	@docker-compose run airflow-cli airflow dags trigger gh_rest_base_repo_api
+	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_base_repo_api --state running
+
+dag_run_commits_pipeline: ## Run commits pipeline
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_commits_api
+	@docker-compose run airflow-cli airflow dags unpause gh_rest_commits_api
+	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_commits_to_iceberg
+	@docker-compose run airflow-cli airflow dags unpause gh_app_commits_models
+	@docker-compose run airflow-cli airflow dags trigger gh_rest_commits_api
+	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_commits_api --state running
+
+
+dag_run_issues_pipeline: ## Run issues pipeline
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_issues_api
+	@docker-compose run airflow-cli airflow dags unpause gh_rest_issues_api
+	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_issues_to_iceberg
+	@docker-compose run airflow-cli airflow dags unpause gh_app_issues_models
+	@docker-compose run airflow-cli airflow dags trigger gh_rest_issues_api
+	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_issues_api --state running
+
+
+docker_clean: ## Clean Docker environment
+	@docker rmi -f image $(docker image ls -q)
+	@docker volume ls -q| xargs -r docker volume rm
+	@docker system prune -f
+	@docker builder prune -f
 
 list_kafka_topics: ## List Kafka topics
 	@docker exec -it kafka kafka-topics --list --bootstrap-server localhost:9092
@@ -28,12 +66,14 @@ spark_connection: ## Airflow Spark Submit connection
 	--conn-extra='{"queue": "root.default", "deploy-mode": "client"}' \
 	--conn-description "Spark Default Connection"
 
-ssh_connection: ## Airflow SSH connection
+ssh_conn: ## Airflow SSH connection
 	@docker compose run airflow-cli airflow connections add ssh-conn \
 	--conn-type=ssh --conn-host=spark-master \
 	--conn-login=spark_user --conn-password=airflow \
 	--conn-description "SSH Connection"
 
+iceberg_batch_commits: ## Test spark batch data transfer - pg to iceberg
+	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./spark_batch/pg_to_iceberg.py --topic commits
 
 iceberg_commits: ## Test pyspark-iceberg consumer
 	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./kafka_consumer/pyspark_consume_from_kafka.py --topic commits
