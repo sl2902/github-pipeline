@@ -35,7 +35,7 @@ with
             load_date,
             row_number() over(partition by commit_sha order by commit_author_date desc) as rank_dups
         from
-            {{ source('bronze', 'commits') }}
+            {{ source('trino', 'commits') }}
 
             {% if is_incremental() %}
         where

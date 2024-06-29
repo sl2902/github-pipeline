@@ -30,7 +30,7 @@ with
             load_date,
             row_number() over(partition by stat_id order by updated_at desc) rank_dups
         from
-            {{ source('bronze', 'base_repo') }}
+            {{ source('trino', 'base_repo') }}
 
         {% if is_incremental() %}
         where

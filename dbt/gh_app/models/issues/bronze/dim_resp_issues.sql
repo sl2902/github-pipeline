@@ -16,7 +16,7 @@ with
             ,created_at
             ,row_number() over(partition by id order by created_at desc) as rank_dups
         from
-            {{ source('bronze', 'issues') }}
+            {{ source('trino', 'issues') }}
             {% if is_incremental() %}
         where
             created_at >= (SELECT max(created_at) from {{ this }})

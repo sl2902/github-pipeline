@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: bronze
+  - name: trino
     database: "{{ var('iceberg_catalog') }}"
     schema: "{{ var('iceberg_schema') }}"
     tables:
