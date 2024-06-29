@@ -1,3 +1,4 @@
 python-dotenv==0.21.0
 boto3==1.34.104
+psycopg2-binary==2.9.9
 pyiceberg[pyarrow,pandas]==0.6.1
