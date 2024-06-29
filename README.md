@@ -25,18 +25,26 @@ The source of the data is GitHub Rest APIs. The following APIs are used:
 
 - /repos/{owner}/{repo}/commits - List commits. Can query 5000 responses per hour
 - /repos/{owner}/{repo}/issues - List issues in a repository. Only open issues will be listed. Can query 5000 responses per hour
-- /repos/{owner}/{repo}/ - List summary statistics for a repository.
+- /repos/{owner}/{repo}/ - List summary statistics for a repository
 
+# Metrics and Dashboard
+
+Three repos were analyzed: Apache Iceberg, Apache Hudi and Delta-io Delta
+<details>
+<summary>Summary statistics for repos</summary>
+Provides a snapshot for various repository metrics such as fork_count, size, watchers_count, stargazers_count and subscribers_count
+![summary stats](assets/summary_stats_repo.png)
+</details>
 
 # URL and port
-| Service Name       | URL                   | Port |
-|--------------------|-----------------------|------|
-| Spark Master       | http://localhost:4040 | 4040 |
-| Spark History      | http://localhost:18080| 18080|
-| MinIO              | http://localhost:9000 | 9000 |
-| Airflow Webserver  | http://localhost:8080 | 8080 |
-| Trino              | http://localhost:1080 | 1080 |
-| Streamlit          | http://localhost:8501 | 8501 |
+| Service Name       | URL                   | Port | User   | Password |
+|--------------------|-----------------------|------| -------|----------|
+| Spark Master       | http://localhost:4040 | 4040 |        |          |
+| Spark History      | http://localhost:18080| 18080|        |          |
+| MinIO              | http://localhost:9000 | 9000 | minio  | minio123 |
+| Airflow Webserver  | http://localhost:8080 | 8080 | airflow| airflow  |
+| Trino              | http://localhost:1080 | 1080 | admins |          |
+| Streamlit          | http://localhost:8501 | 8501 |        |          |
 
 
 # Steps to reproduce
@@ -52,7 +60,7 @@ and generate your PAT. Grant it the appropriate persmissions
 [Generate PAT](https://github.com/settings/tokens)
 </details>
 
-Note - If you have already done these steps then it is not required.
+Note - If you have already done these steps then it is not required. However, you will need the Personal Access Token (PAT)
 
 <details>
 <summary>Install Docker for your OS</summary>
