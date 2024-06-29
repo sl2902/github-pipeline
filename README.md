@@ -75,9 +75,11 @@ the commiter is GitHub
 
 </details>
 
+# Dag dependencies
+[Dag dependencies](assets/dag_dependencies.png)
 
 
-# URL and port
+# URLs and port numbers
 | Service Name       | URL                   | Port | User   | Password |
 |--------------------|-----------------------|------| -------|----------|
 | Spark Master       | http://localhost:4040 | 4040 |        |          |
