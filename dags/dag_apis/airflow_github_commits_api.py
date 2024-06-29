@@ -59,10 +59,10 @@ fetch_commits = PythonOperator(
 #         trigger_rule=TriggerRule.ALL_SUCCESS,
 # )
 
-trigger_kafka_commits_producer = TriggerDagRunOperator(
-    task_id="trigger_kafka_commits_producer",
-    trigger_dag_id="publish_commits_to_kafka",
+trigger_spark_commits_producer = TriggerDagRunOperator(
+    task_id="trigger_spark_commits_producer",
+    trigger_dag_id="publish_pg_raw_commits_to_iceberg",
     dag=dag
 )
 
-fetch_commits >> trigger_kafka_commits_producer
+fetch_commits >> trigger_spark_commits_producer

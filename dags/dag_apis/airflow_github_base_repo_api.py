@@ -38,7 +38,7 @@ dag = DAG(
     'gh_rest_base_repo_api',
     default_args=default_args,
     description="Task queries GitHub REST API endpoint - /",
-    schedule_interval="@hourly",
+    schedule="@daily",
     start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
 )
@@ -54,10 +54,10 @@ fetch_base_repo = PythonOperator(
     dag=dag
 )
 
-trigger_kafka_base_repo_producer = TriggerDagRunOperator(
-    task_id="trigger_kafka_base_repo_producer",
-    trigger_dag_id="publish_base_repo_to_kafka",
+trigger_spark_base_repo_transfer = TriggerDagRunOperator(
+    task_id="trigger_spark_base_repo_transfer",
+    trigger_dag_id="publish_pg_raw_base_repo_to_iceberg",
     dag=dag
 )
 
-fetch_base_repo >> trigger_kafka_base_repo_producer
+fetch_base_repo >> trigger_spark_base_repo_transfer

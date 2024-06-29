@@ -54,10 +54,10 @@ fetch_issues = PythonOperator(
     dag=dag
 )
 
-trigger_kafka_issues_producer = TriggerDagRunOperator(
-    task_id="trigger_kafka_issues_producer",
-    trigger_dag_id="publish_issues_to_kafka",
+trigger_spark_issues_transfer = TriggerDagRunOperator(
+    task_id="trigger_spark_issues_transfer",
+    trigger_dag_id="publish_pg_raw_issues_to_iceberg",
     dag=dag
 )
 
-fetch_issues >> trigger_kafka_issues_producer
+fetch_issues >> trigger_spark_issues_transfer
