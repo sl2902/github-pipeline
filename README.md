@@ -33,6 +33,7 @@ Three repos were analyzed: Apache Iceberg, Apache Hudi and Delta-io Delta
 <details>
 <summary>Summary statistics for repos</summary>
 Provides a snapshot for various repository metrics such as fork_count, size, watchers_count, stargazers_count and subscribers_count
+
 ![summary stats](assets/summary_stats_repo.png)
 </details>
 
