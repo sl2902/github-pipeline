@@ -7,7 +7,7 @@ import argparse
 from dotenv import load_dotenv
 from utils.iceberg_kafka_keys import *
 from kafka_consumer.pyspark_topic_schemas import *
-from kafka_consumer.iceberg_tables import *
+from utils.iceberg_tables import *
 
 _ = load_dotenv()
 
