@@ -76,7 +76,7 @@ the commiter is GitHub
 </details>
 
 # Dag dependencies
-[Dag dependencies](assets/dag_dependencies.png)
+![Dag dependencies](assets/dag_dependencies.png)
 
 
 # URLs and port numbers
