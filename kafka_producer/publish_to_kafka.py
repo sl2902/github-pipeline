@@ -6,7 +6,7 @@ import os
 from datetime import datetime, date
 from dotenv import load_dotenv
 import logging
-from kafka_producer.query_upstream_db import query_upstream_db
+from utils.query_upstream_db import query_upstream_db
 from utils.iceberg_kafka_keys import *
 
 logger = logging.getLogger("airflow.task")
