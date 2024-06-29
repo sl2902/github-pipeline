@@ -30,11 +30,13 @@ with st.sidebar:
 # schema = "bronze"
 
 def create_trino_connection() -> dbapi.Connection:
-    """Create a Trino db connection"""
+    """Create a Trino db connection
+    From host machine use localhost:1080
+    """
     try:
         conn = connect(
-            host="localhost",
-            port=1080,
+            host="trino",
+            port=8080,
             user="admin",
             catalog=f"{catalog}",
             schema=f"{schema}",
