@@ -16,8 +16,9 @@ The primary datasets and APIs that will be used are the PyPI dataset from Google
 # High-level architecture
 ![High level architecture](assets/architecture.png)
 
-# dbt model lineage
-![dbt model lineage](assets/GitHub_dbt_model_lineage.png)
+# dbt Documentation
+<iframe src="https://github.com/sl2902/sl2902.github.io/blob/source/target/index.html" width="100%" height="600px">
+</iframe>
 
 # Datasource
 The source of the data is GitHub Rest APIs. The following APIs are used:
