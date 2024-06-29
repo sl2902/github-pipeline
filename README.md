@@ -17,7 +17,7 @@ The primary datasets and APIs that will be used are the PyPI dataset from Google
 ![High level architecture](assets/architecture.png)
 
 # dbt Documentation
-<iframe src="https://github.com/sl2902/sl2902.github.io/blob/source/target/index.html" width="100%" height="600px">
+<iframe src="https://github.com/sl2902/sl2902.github.io/blob/source/target/" width="100%" height="600px">
 </iframe>
 
 # Datasource
