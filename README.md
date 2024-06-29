@@ -33,34 +33,44 @@ Three repos were analyzed: Apache Iceberg, Apache Hudi and Delta-io Delta
 <details>
 <summary>Summary statistics for repos</summary>
 
-Provides a snapshot for various repository metrics such as fork_count, size, watchers_count, stargazers_count and subscribers_count
+- Provides a snapshot for various repository metrics such as fork_count, size, watchers_count, stargazers_count and subscribers_count
 
 ![summary stats](assets/summary_stats_repo.png)
 </details>
 
 <details>
-<summary>Count of commits by authors - all time</summary>
-A line chart comparing the three repositories by number of commits by authors for all time
+<summary>Commits metrics</summary>
+- A line chart comparing the three repositories by number of commits by authors for all time
 
 ![Count of author commits - all time](assets/count_author_commits_all_time.png)
 
-A line chart comparing the three repositories by number of commits by commiters for all time.
+- A line chart comparing the three repositories by number of commits by commiters for all time.
 
 Note - Here the charts are almost identical as the commit_author_date nd commit_committer_date are identical when
 the commiter is GitHub
 
 ![Count of commiter commits - all time](assets/count_committer_commits_all_time.png)
 
-Top 3 authors by number of commits
-
 ![Top 3 authors](assets/top3_authors_commits.png)
 
-Top 3 committers by number of commits
-
 ![Top 3 committers](assets/top3_committers_commits.png)
+</details>
 
+<details>
+<summary>Issues metrics</summary>
 
-![summary stats](assets/summary_stats_repo.png)
+- A line chart comparing the frequency of issues over time across the three repositories
+
+![Count of issues - all time](assets/count_of_issues_all_time.png)
+
+- A line chart showing the cumulative count of issues in the last 7 days
+
+![Cumulative count of issues - last 7 days](assets/cumulative_count_of_issues_last_7_days.png)
+
+- A line chart showing the number of days taken to update an issue
+
+![Number of days taken to update an issue](assets/number_days_to_update_issues.png)
+
 </details>
 
 
