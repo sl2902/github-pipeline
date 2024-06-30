@@ -7,7 +7,7 @@ with
             created_at,
             num_issues
         from
-            {{ ref('fct_all_time_issues_trend') }}
+            {{ ref('int_all_time_issues_trend') }}
 )
 select
     *

@@ -7,7 +7,7 @@ with
             label,
             num_labels
         from
-            {{ ref('fct_num_labels_in_issues') }}
+            {{ ref('int_num_labels_in_issues') }}
 )
 select
     *

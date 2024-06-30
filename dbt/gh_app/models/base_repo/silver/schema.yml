@@ -1,5 +1,5 @@
 models:  
-  - name: fct_base_repo_stats_summary
+  - name: int_base_repo_stats_summary
     description: >
       Contains a summary of repo stats
     columns:

@@ -3,7 +3,7 @@ version: 2
 
 
 models:
-  - name: fct_commits
+  - name: stg_commits
     description: >
       Contains commits by users to various GitHub repos
     columns:

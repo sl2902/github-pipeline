@@ -4,10 +4,10 @@ with
     final as (
         select
             repo,
-            committer_name,
+            author_name,
             num_commits
         from
-            {{ ref('fct_num_committer_commits') }}
+            {{ ref('int_num_author_commits') }}
 )
 select
     *

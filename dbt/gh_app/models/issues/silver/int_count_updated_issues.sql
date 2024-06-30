@@ -9,7 +9,7 @@ with
             extract(month from cast(created_at as date)) month,
             count(*) num_issues
         from
-            {{ ref('fct_issues') }}
+            {{ ref('stg_issues') }}
         where 
             extract(month from cast(created_at as date)) = extract(month from current_date) - 1
         and

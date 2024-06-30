@@ -8,7 +8,7 @@ with
 		    count(*) num_commits,
 		    dense_rank() over(partition by repo order by count(*) desc) rr_author
 		  from
-		     {{ ref('fct_commits') }}
+		     {{ ref('stg_commits') }}
 		   group by
 		      repo,
 		      author_name

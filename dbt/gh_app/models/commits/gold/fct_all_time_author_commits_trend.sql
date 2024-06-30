@@ -6,7 +6,7 @@ with
             commit_author_date,
             num_commits
         from
-            {{ ref('fct_all_time_author_commits_trend') }}
+            {{ ref('int_all_time_author_commits_trend') }}
 )
 select
     *

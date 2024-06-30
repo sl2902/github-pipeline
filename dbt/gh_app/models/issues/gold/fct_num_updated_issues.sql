@@ -7,7 +7,7 @@ with
             num_days,
             num_issues
         from
-            {{ ref('fct_count_updated_issues') }}
+            {{ ref('int_count_updated_issues') }}
 )
 select
     *

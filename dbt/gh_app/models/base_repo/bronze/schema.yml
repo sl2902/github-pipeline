@@ -2,7 +2,7 @@ version: 2
 
 
 models:
-  - name: fct_base_repo_stats
+  - name: stg_base_repo_stats
     description: >
       Contains stats about the repo.
     columns:

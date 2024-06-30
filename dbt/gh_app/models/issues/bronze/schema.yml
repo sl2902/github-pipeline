@@ -2,7 +2,7 @@ version: 2
 
 
 models:
-  - name: fct_issues
+  - name: stg_issues
     description: >
       Contains issues by users to various GitHub repos
     columns:
@@ -63,3 +63,19 @@ models:
         description: "The raw json string."
       - name: load_date
         description: "Load date."
+  
+  - name: stg_raw_issues
+    description: >
+      Contains raw issues by users to various GitHub repos
+    columns:
+      - name: id
+        description: "Unique identifier for the issue."
+        data_tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: response
+        description: "Raw json response"
+      - name: created_at
+        description: "Date of issue creation.s"

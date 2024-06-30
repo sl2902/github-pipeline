@@ -5,7 +5,7 @@ parsed_data as (
     select 
         id,
         json_parse(response) as parsed_response
-    from {{ ref('dim_resp_issues') }}
+    from {{ ref('stg_raw_issues') }}
 ),
 labels_extracted as (
     select
@@ -30,7 +30,7 @@ flattened as (
         count(*) as num_labels,
         dense_rank() over(partition by repo order by count(*) desc) as rn_top_3
     from
-        flattened a join {{ ref('fct_issues') }} b on a.id = b.id
+        flattened a join {{ ref('stg_issues') }} b on a.id = b.id
     group by
         repo,
         name

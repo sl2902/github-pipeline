@@ -1,7 +1,7 @@
 
 
 with
-    summary as(
+    final as(
         select
             repo,
             owner,
@@ -17,9 +17,9 @@ with
             pushed_at,
             updated_at
         from
-            {{ ref('fct_base_repo_stats') }}
+            {{ ref('int_base_repo_stats_summary') }}
 )
 select
     *
 from
-    summary
+    final
