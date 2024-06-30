@@ -78,4 +78,6 @@ models:
       - name: response
         description: "Raw json response"
       - name: created_at
-        description: "Date of issue creation.s"
+        description: "Date of issue creation."
+      - name: load_date
+        description: "Load date."

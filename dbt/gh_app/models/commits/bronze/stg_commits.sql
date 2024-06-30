@@ -33,13 +33,13 @@ with
             commit_verification_verified,
             response,
             load_date,
-            row_number() over(partition by commit_sha order by commit_author_date desc) as rank_dups
+            row_number() over(partition by commit_sha order by load_date desc) as rank_dups
         from
             {{ source('trino', 'commits') }}
 
             {% if is_incremental() %}
         where
-            commit_author_date >= (SELECT max(commit_author_date) from {{ this }})
+            load_date > (SELECT max(load_date) from {{ this }})
 
         {% endif %}
 )

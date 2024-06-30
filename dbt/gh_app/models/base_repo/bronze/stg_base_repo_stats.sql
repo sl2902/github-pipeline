@@ -28,13 +28,13 @@ with
             updated_at,
             response,
             load_date,
-            row_number() over(partition by stat_id order by updated_at desc) rank_dups
+            row_number() over(partition by stat_id order by load_date desc) rank_dups
         from
             {{ source('trino', 'base_repo') }}
 
         {% if is_incremental() %}
         where
-            updated_at >= (SELECT max(updated_at) from {{ this }})
+            load_date > (SELECT max(load_date) from {{ this }})
 
         {% endif %}
 )

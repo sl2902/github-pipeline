@@ -14,12 +14,13 @@ with
             id
             ,response
             ,created_at
-            ,row_number() over(partition by id order by created_at desc) as rank_dups
+            ,load_date
+            ,row_number() over(partition by id order by load_date desc) as rank_dups
         from
             {{ source('trino', 'issues') }}
-            {% if is_incremental() %}
+        {% if is_incremental() %}
         where
-            created_at >= (SELECT max(created_at) from {{ this }})
+            load_date > (SELECT max(load_date) from {{ this }})
 
         {% endif %}
 )
@@ -27,6 +28,7 @@ select
     id
     ,response
     ,created_at
+    ,load_date
 from
     staging
 where
