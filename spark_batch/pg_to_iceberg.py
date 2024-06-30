@@ -12,7 +12,7 @@ from utils.iceberg_kafka_keys import *
 from utils.iceberg_tables import *
 from utils.pg_upstream_queries import *
 
-logger = logging.getLogger("airflow.task")
+logger = logging.getLogger(__name__)
 
 _ = load_dotenv()
 
@@ -63,38 +63,63 @@ def write_iceberg_table(
         .overwritePartitions()
     )
 
+# def consume_batch_pipeline(
+#         table: str, 
+#         partition_keys: list,
+#         output_table: str,
+#         start_date: str,
+#         end_date: str
+#     ):
+#     batch_size, offset = 500, 0
+#     spark.sql(ice_tables[f'{table}'].format(os.path.join(os.getenv("S3_LOCATION"), table)))
+#     count = 0
+#     endpoint = "/" if table == "base_repo" else table 
+#     qry = raw_qry_str[endpoint]
+#     qry += f"and load_date between '{start_date}' and '{end_date}'"
+#     final_qry = ''
+#     while True:
+#         final_qry = qry + f"\nlimit {batch_size} offset {offset}"
+#         final_qry = final_qry.replace(";", "")
+#         logger.info(final_qry)
+#         df = read_pg_table(final_qry)
+#         count += df.count()
+#         if df.count() == 0:
+#             break
+#         offset += batch_size
+#         write_iceberg_table(df, output_table)
+#         # print(f"Running count: {count}")
+#         # final_count = spark.read.format("iceberg").load(output_table).count()
+#         # print(f"Final total records in Iceberg table: {final_count}")
+#     logger.info(f'Number of records {count}')
+
 def consume_batch_pipeline(
         table: str, 
         partition_keys: list,
-        output_table: str
+        output_table: str,
+        start_date: str,
+        end_date: str
     ):
     batch_size, offset = 500, 0
     spark.sql(ice_tables[f'{table}'].format(os.path.join(os.getenv("S3_LOCATION"), table)))
     count = 0
     endpoint = "/" if table == "base_repo" else table 
-    while True:
-        qry = raw_qry_str[endpoint]
-        qry += f"limit {batch_size} offset {offset}"
-        qry = qry.replace(";", "")
-        logger.info(qry)
-        df = read_pg_table(qry)
-        count += df.count()
-        if df.count() == 0:
-            break
-        offset += batch_size
-        write_iceberg_table(df, output_table)
-        # print(f"Running count: {count}")
-        # final_count = spark.read.format("iceberg").load(output_table).count()
-        # print(f"Final total records in Iceberg table: {final_count}")
-    logger.info(f'Number of records {count}')
+    qry = raw_qry_str[endpoint]
+    qry += f"and load_date between '{start_date}' and '{end_date}'"
+    # final_qry = qry + f"\nlimit {batch_size} offset {offset}"
+    final_qry = qry.replace(";", "")
+    print(final_qry)
+    df = read_pg_table(final_qry)
+    write_iceberg_table(df, output_table)
 
 
-def main(table: str):
+def main(table: str, start_date: str, end_date: str):
     consume_batch_pipeline(
         table,
         # f"{os.getenv('S3_LOCATION')}/checkpoints/{table}",
         topic_keys[f'{table}']["partition_keys"],
-        f"bronze.{table}"
+        f"bronze.{table}",
+        start_date,
+        end_date
     )
 
 if __name__ == "__main__":
@@ -102,5 +127,11 @@ if __name__ == "__main__":
     parser.add_argument('--table',
              required=True,
              help='Iceberg table name')
+    parser.add_argument('--start_date',
+                        required=True,
+                        help='Start date to query from')
+    parser.add_argument('--end_date',
+                        required=True,
+                        help="End date to fix range")
     args = parser.parse_args()
-    main(args.table)
+    main(args.table, args.start_date, args.end_date)
