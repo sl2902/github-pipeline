@@ -12,7 +12,7 @@ CREATE TABLE gh_staging_raw_endpoints (
     endpoint VARCHAR(20),
     response JSONB,
     response_md5 CHAR(32),
-    created_date TIMESTAMP NOT NULL DEFAULT NOW(),
+    load_date TIMESTAMP NOT NULL DEFAULT NOW(),
     UNIQUE (endpoint, response_md5)
 );
 
