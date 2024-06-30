@@ -43,7 +43,7 @@ dag_run_issues_pipeline: ## Run issues pipeline
 
 
 docker_clean: ## Clean Docker environment
-	@docker rmi -f image $(docker image ls -q)
+	@docker images -aq | xargs -r docker rmi -f
 	@docker volume ls -q| xargs -r docker volume rm
 	@docker system prune -f
 	@docker builder prune -f
@@ -72,10 +72,16 @@ ssh_conn: ## Airflow SSH connection
 	--conn-login=spark_user --conn-password=airflow \
 	--conn-description "SSH Connection"
 
-iceberg_batch_commits: ## Test spark batch data transfer - pg to iceberg
-	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./spark_batch/pg_to_iceberg.py --topic commits
+iceberg_batch_base_repo: ## Test spark batch data transfer - pg to iceberg for base_repo
+	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./spark_batch/pg_to_iceberg.py --table base_repo --start_date "2024-06-30 16:00:00" --end_date "2024-06-30 17:00:00"
 
-iceberg_commits: ## Test pyspark-iceberg consumer
+iceberg_batch_commits: ## Test spark batch data transfer - pg to iceberg
+	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./spark_batch/pg_to_iceberg.py --table commits --start_date "2024-06-30 18:00:00" --end_date "2024-06-30 19:00:00"
+
+iceberg_base_repo: ## Test pyspark-iceberg base_repo consumer
+	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./kafka_consumer/pyspark_consume_from_kafka.py --topic commits
+
+iceberg_commits: ## Test pyspark-iceberg commits consumer
 	@docker exec -it spark-master spark-submit --master spark://spark-master:7077 --deploy-mode client ./kafka_consumer/pyspark_consume_from_kafka.py --topic commits
 
 dbt_docs_generate: ## Generate dbt docs
