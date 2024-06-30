@@ -7,7 +7,7 @@ all_time_issues_trend = f"""
             created_at,
             num_issues
         from
-            {catalog}.{schema}.all_time_issues_trend
+            {catalog}.{schema}.fct_all_time_issues_trend
         """
 
 last_7_days_fct_issues = f"""
@@ -16,7 +16,7 @@ last_7_days_fct_issues = f"""
             created_at,
             issue_count
         from 
-            {catalog}.{schema}.last_7_days_fct_issues 
+            {catalog}.{schema}.fct_last_7_days_fct_issues 
         """
 
 num_updated_issues = f"""
@@ -25,7 +25,7 @@ num_updated_issues = f"""
             num_days,
             num_issues
         from
-            {catalog}.{schema}.num_updated_issues
+            {catalog}.{schema}.fct_num_updated_issues
         """
 
 num_labels_per_repo = f"""
@@ -34,7 +34,7 @@ num_labels_per_repo = f"""
             label,
             num_labels
         from
-            {catalog}.{schema}.num_labels_per_repo
+            {catalog}.{schema}.fct_num_labels_per_repo
         """
 
 all_time_author_commits_trend = f"""
@@ -43,7 +43,7 @@ all_time_author_commits_trend = f"""
             commit_author_date,
             num_commits
         from
-            {catalog}.{schema}.all_time_author_commits_trend
+            {catalog}.{schema}.fct_all_time_author_commits_trend
         """
 
 all_time_committer_commits_trend = f"""
@@ -52,7 +52,7 @@ all_time_committer_commits_trend = f"""
             commit_committer_date,
             num_commits
         from
-            {catalog}.{schema}.all_time_committer_commits_trend
+            {catalog}.{schema}.fct_all_time_committer_commits_trend
         """
 
 num_author_commits_by_repo = f"""
@@ -61,7 +61,7 @@ num_author_commits_by_repo = f"""
             author_name,
             num_commits
         from
-            {catalog}.{schema}.num_author_commits_by_repo
+            {catalog}.{schema}.fct_num_author_commits_by_repo
         """
 
 num_committer_commits_by_repo = f"""
@@ -70,7 +70,7 @@ num_committer_commits_by_repo = f"""
             committer_name,
             num_commits
         from
-            {catalog}.{schema}.num_committer_commits_by_repo
+            {catalog}.{schema}.fct_num_committer_commits_by_repo
         """
 
 summary_stats_base_repo = f"""
@@ -85,5 +85,5 @@ summary_stats_base_repo = f"""
             stargazers_count,
             subscribers_count
         from
-            {catalog}.{schema}.all_time_base_repo_stats
+            {catalog}.{schema}.fct_all_time_base_repo_stats
         """
