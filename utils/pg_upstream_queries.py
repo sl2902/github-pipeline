@@ -22,7 +22,7 @@ raw_qry_str = {
                     ,response->'commit'->'verification'->>'reason' as commit_verification_reason
                     ,(response->'commit'->'verification'->>'verified')::boolean as commit_verification_verified
                     ,response::text
-                    ,created_date as load_date
+                    ,load_date
                 
                 from 
                     gh_staging_raw_endpoints
@@ -56,7 +56,7 @@ raw_qry_str = {
                     ,(response ->'reactions'->>'rocket')::int AS rocket
                     ,(response ->'reactions'->>'eyes')::int AS eyes
                     ,response::text
-                    ,created_date as load_date
+                    ,load_date
                 FROM 
                     gh_staging_raw_endpoints
                 where 
@@ -79,7 +79,7 @@ raw_qry_str = {
                     ,(response ->>'pushed_at')::timestamp as pushed_at
                     ,(response ->>'updated_at')::timestamp as updated_at
                     ,response::text
-                    ,created_date as load_date
+                    ,load_date
                 from
                     gh_staging_raw_endpoints
                 where 

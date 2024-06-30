@@ -26,7 +26,7 @@ ice_tables = {
                )
                using iceberg
                location '{}'
-               partitioned by (days(commit_author_date));
+               partitioned by (days(load_date));
                 """,
     "issues": """
                 create table if not exists bronze.issues (
@@ -59,7 +59,7 @@ ice_tables = {
                 )
                 using iceberg
                 location '{}'
-                partitioned by (days(created_at));
+                partitioned by (days(load_date));
                 """,
     "base_repo": """
                 create table if not exists bronze.base_repo (
@@ -81,6 +81,6 @@ ice_tables = {
                 )
                 using iceberg
                 location '{}'
-                partitioned by (days(updated_at));
+                partitioned by (days(load_date));
                 """
 }
