@@ -75,6 +75,19 @@ the commiter is GitHub
 
 </details>
 
+<details>
+<summary>PyPi packages metrics</summary>
+
+- A line chart showing the percentage change in pyiceberg downloads - last 6 months
+
+![Percent change pyiceberg downloads - last 6 months](assets/percentage_change_in_pyiceberg_downloads.png)
+
+- A line chart showing the percentage change in delta-spark downloads - last 6 months
+
+![Cumulative count of issues - last 7 days](assets/percentage_change_in_delta_spark_downloads.png)
+
+</details>
+
 # Dag dependencies
 ![Dag dependencies](assets/dag_dependencies.png)
 
