@@ -85,5 +85,33 @@ raw_qry_str = {
                 where 
                     endpoint = '/'
 
-                """ 
+                """,
+    "overall":  """
+                 select 
+                    response_md5 as id
+                    ,package
+                    ,endpoint
+                    ,response->>'category' as category
+                    ,(response->>'date')::date as date
+                    ,(response->>'downloads')::int as downloads
+                    ,load_date
+                from
+                    pypi_staging_raw_endpoints
+                where
+                    endpoint = 'overall'
+                """,
+    "recent":   """
+                 select 
+                    response_md5 as id
+                    ,package
+                    ,endpoint
+                    ,response->>'category' as category
+                    ,(response->>'date')::date as date
+                    ,(response->>'downloads')::int as downloads
+                    ,load_date
+                from
+                    pypi_staging_raw_endpoints
+                where
+                    endpoint = 'recent'
+                """
 }
