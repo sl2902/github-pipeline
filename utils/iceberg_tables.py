@@ -82,5 +82,19 @@ ice_tables = {
                 using iceberg
                 location '{}'
                 partitioned by (days(load_date));
-                """
+                """,
+    "overall": """
+                create table if not exists bronze.overall (
+                    id STRING,
+                    package STRING,
+                    endpoint STRING,
+                    category STRING,
+                    date DATE,
+                    downloads INT,
+                    load_date TIMESTAMP
+                )
+                using iceberg
+                location '{}'
+                partitioned by (days(load_date));
+                """,
 }

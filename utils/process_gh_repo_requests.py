@@ -7,7 +7,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 from typing import Dict, List, Optional
-from utils.api_requests import get_recent_endpoints
+from utils.pypi_api_requests import get_recent_endpoints
 from utils.db_operations import (get_last_page_and_next_page,
                            check_apis_last_run,
                            insert_raw_endpoints,
@@ -41,7 +41,7 @@ def process_requests(repo: str, owner: str, endpoint: str):
         raise Exception(f'Could not create Postgres connection: {e}')
 
     url = f"{base_url}/{owner}/{repo}/{endpoint}" if endpoint != "/" else f"{base_url}/{owner}/{repo}"
-    i = 0
+    # i = 0
     latest_next_url = None
     latest_next_page, latest_last_page = 1, 0
     while True:
@@ -108,9 +108,9 @@ def process_requests(repo: str, owner: str, endpoint: str):
                     conn.commit()
                 break
 
-            if i > 1:
-                break
-            i += 1
+            # if i > 1:
+            #     break
+            # i += 1
 
         except Exception as e:
             conn.rollback()
