@@ -164,7 +164,7 @@ mv env.template .env
 
 4.1 Fill in the blanks to the following environment variables in the `.env` file and save them:
 ```shell
-GIT_PAT=
+GITHUB_PAT=
 ```
 
 **5.** Load environment variables into the project directory:
