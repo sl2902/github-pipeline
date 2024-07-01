@@ -77,8 +77,12 @@ result_set8 = execute_query(num_committer_commits_by_repo)
 
 result_set9 = execute_query(summary_stats_base_repo)
 
+result_set10 = execute_query(pypi_percent_change_pyiceberg_downloads)
 
-tab1, tab2, tab3 = st.tabs(["Summary", "Commits", "Issues"])
+result_set11 = execute_query(pypi_percent_change_deltaspark_downloads)
+
+
+tab1, tab2, tab3, tab4 = st.tabs(["Summary", "Commits", "Issues", "PyPi"])
 with tab1:
     st.markdown("<h1 style='text-align: center; color: gold;'>Summary stats of the repo</h1>", unsafe_allow_html=True)
     st.markdown("All time summary sats")
@@ -186,6 +190,41 @@ with tab3:
                 st.altair_chart(linechart, use_container_width=True)
         else:
             print("Table `num_updated_issues` not ready. Check Trino dashboard")
+    
+with tab4:
+    st.markdown("<h1 style='text-align: center; color: gold;'>PyPi package trends</h1>", unsafe_allow_html=True)
+    col = st.columns((3.5, 10.5), gap='small')
+    with col[1]:
+        st.markdown("Percent change in pyiceberg downloads - last 6 months")
+        if result_set10 is not None:
+            linechart = make_linechart4(
+                result_set10, 
+                input_x="date", 
+                input_y="percent_change", 
+                input_color="category",
+                # label_x="Download date",
+                # label_y="Percent change download"
+            )
+            if linechart:
+                st.altair_chart(linechart, use_container_width=True)
+        else:
+            print("Table `pypi_percent_change_pyiceberg_downloads` not ready. Check Trino dashboard")
+        
+        st.markdown("Percent change in delta-io downloads - last 6 months")
+        if result_set11 is not None:
+            linechart = make_linechart4(
+                result_set11, 
+                input_x="date", 
+                input_y="percent_change", 
+                input_color="category",
+                # label_x="Download date",
+                # label_y="Percent change download"
+            )
+            if linechart:
+                st.altair_chart(linechart, use_container_width=True)
+        else:
+            print("Table `pypi_percent_change_deltaspark_downloads` not ready. Check Trino dashboard")
+
 
         
     

@@ -66,6 +66,25 @@ def make_linechart3(input_df, input_x=None, input_y=None, input_color=None):
                     )
     return linechart + points
 
+def make_linechart4(input_df, input_x=None, input_y=None, input_color=None):
+    # https://stackoverflow.com/questions/53287928/tooltips-in-altair-line-charts
+    highlight = alt.selection_point(on='pointerover', fields=[input_color], nearest=True)
+    linechart = alt.Chart(input_df).mark_line().encode(
+            alt.X(f"{input_x}:T", axis=alt.Axis(title="Download date", titleFontSize=16, titlePadding=15, titleFontWeight=900, labelAngle=0)),
+            alt.Y(f"{input_y}:Q", axis=alt.Axis(title="Percent change in downloads", titleFontSize=16, titlePadding=15, titleFontWeight=900, labelAngle=0, format=".0%")),
+            color=f"{input_color}:N", #alt.value('gold'),
+            tooltip=[alt.Tooltip(f"{input_y}:Q", title="Issue count", format=".0%"), alt.Tooltip(f'{input_x}:T', title="Download date")]
+        )
+    # tt = linechart.mark_line(strokeWidth=30, opacity=0.01)
+    points = linechart.mark_circle().encode(
+                    opacity=alt.value(0)
+                            ).add_params(
+                                highlight
+                            ).properties(
+                                width=600
+                    )
+    return linechart + points
+
 # Table
 def make_table1(input_df, bar_style_col=None, cols=None):
     # input_df.set_index(input_df.columns[0], inplace=True)
