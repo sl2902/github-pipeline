@@ -186,6 +186,7 @@ make dag_run_issues_pipeline
 ```shell
  http://localhost:8501
  ```
+
 > [!NOTE]
 > If the dashboard is not updated, then stop and start the container:
 > ```shell
@@ -195,20 +196,22 @@ make dag_run_issues_pipeline
 
 # Next steps
 
-[1] Add unit tests and integration tests
-[2] Add CI/CD pipeline
-[3] Move to the cloud
+[1] Add unit tests and integration tests<br>
+[2] Add CI/CD pipeline<br>
+[3] Move to the cloud<br>
 
 # References
-[1] [Airflow docker](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
-[2] [Iceberg-Spark container](https://iceberg.apache.org/spark-quickstart/#spark-and-iceberg-quickstart)
-[3] [Create Kafka topic on startup](https://stackoverflow.com/questions/64865361/docker-compose-create-kafka-topics)
-[4] [Fix for Kafka listeners](https://github.com/borgesnotes/kafka-docker/blob/master/confluent/docker-compose.yml)
-[5] [Persist postgres data in Docker](https://stackoverflow.com/questions/41637505/)
-[6] [Airflow SSH operator setup](https://github.com/anittasaju1996/MyProjects/blob/master/Airflow_SSHOperator_Spark_in_Docker/spark.Dockerfile)
-[7] [Iceberg DNS error fix](https://github.com/apache/iceberg/issues/7721)
-[8] [Trino-Iceberg-Minio Docker](https://github.com/bitsondatadev/trino-getting-started)
-[9] [Rest catalog DNS error fix](https://github.com/apache/iceberg/issues/7709)
+[1] [Airflow docker](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)<br>
+[2] [Iceberg-Spark container](https://iceberg.apache.org/spark-quickstart/#spark-and-iceberg-quickstart)<br>
+[3] [Create Kafka topic on startup](https://stackoverflow.com/questions/64865361/docker-compose-create-kafka-topics)<br>
+[4] [Fix for Kafka listeners](https://github.com/borgesnotes/kafka-docker/blob/master/confluent/docker-compose.yml)<br>
+[5] [Persist postgres data in Docker](https://stackoverflow.com/questions/41637505/)<br>
+[6] [Airflow SSH operator setup](https://github.com/anittasaju1996/MyProjects/blob/master/Airflow_SSHOperator_Spark_in_Docker/spark.Dockerfile)<br>
+[7] [Iceberg DNS error fix](https://github.com/apache/iceberg/issues/7721)<br>
+[8] [Trino-Iceberg-Minio Docker](https://github.com/bitsondatadev/trino-getting-started)<br>
+[9] [Rest catalog DNS error fix](https://github.com/apache/iceberg/issues/7709)<br>
+[10] [GitHub Rest API](https://docs.github.com/en/rest?apiVersion=2022-11-28)<br>
+[11] [PyPi API](https://pypistats.org/)<br>
 
 
 
