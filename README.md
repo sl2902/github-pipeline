@@ -21,11 +21,12 @@ The primary datasets and APIs that will be used are the PyPI dataset from Google
 
 
 # Datasource
-The source of the data is GitHub Rest APIs. The following APIs are used:
+The source of the data is GitHub Rest APIs and PyPi API. The following APIs are used:
 
 - /repos/{owner}/{repo}/commits - List commits. Can query 5000 responses per hour
 - /repos/{owner}/{repo}/issues - List issues in a repository. Only open issues will be listed. Can query 5000 responses per hour
 - /repos/{owner}/{repo}/ - List summary statistics for a repository every day
+- https://pypistats.org/api/packages/{package}/overall - Last 6 months history for a package. Updates daily
 
 # Metrics and Dashboard
 
@@ -185,6 +186,29 @@ make dag_run_issues_pipeline
 ```shell
  http://localhost:8501
  ```
+ [!Note]
+ > If the dashboard is not updated. Then stop and start the container
+ ```shell
+docker compose down streamlit
+docker compose up -d streamlit
+    ```
+
+# Next steps
+
+[1] Add unit tests and integration tests
+[2] Add CI/CD pipeline
+[3] Move to the cloud
+
+# References
+[1] [Airflow docker](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html)
+[2] [Iceberg-Spark container](https://iceberg.apache.org/spark-quickstart/#spark-and-iceberg-quickstart)
+[3] [Create Kafka topic on startup](https://stackoverflow.com/questions/64865361/docker-compose-create-kafka-topics)
+[4] [Fix for Kafka listeners](https://github.com/borgesnotes/kafka-docker/blob/master/confluent/docker-compose.yml)
+[5] [Persist postgres data in Docker](https://stackoverflow.com/questions/41637505/)
+[6] [Airflow SSH operator setup](https://github.com/anittasaju1996/MyProjects/blob/master/Airflow_SSHOperator_Spark_in_Docker/spark.Dockerfile)
+[7] [Iceberg DNS error fix](https://github.com/apache/iceberg/issues/7721)
+[8] [Trino-Iceberg-Minio Docker](https://github.com/bitsondatadev/trino-getting-started)
+[9] [Rest catalog DNS error fix](https://github.com/apache/iceberg/issues/7709)
 
 
 
