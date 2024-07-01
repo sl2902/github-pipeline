@@ -38,6 +38,13 @@ dag_run_issues_pipeline: ## Run issues pipeline
 	@docker-compose run airflow-cli airflow dags unpause gh_app_issues_models
 	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_issues_api --state running
 
+dag_run_overall_pipeline: ## Run pypi overall pipeline
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_pypi_overall_api
+	@docker-compose run airflow-cli airflow dags unpause gh_rest_pypi_overall_api
+	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_pypi_overall_to_iceberg
+	@docker-compose run airflow-cli airflow dags unpause pypi_app_overall_models
+	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_pypi_overall_api --state running
+
 
 docker_clean: ## Clean Docker environment
 	@docker images -aq | xargs -r docker rmi -f
