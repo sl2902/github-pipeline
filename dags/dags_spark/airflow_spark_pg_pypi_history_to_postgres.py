@@ -2,6 +2,7 @@
 Fetch pg tables and write them to iceberg
 """
 import os
+from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import logging
 from airflow import DAG
@@ -30,7 +31,7 @@ from airflow.providers.ssh.operators.ssh import (
 )
 
 _ = load_dotenv()
-logger = logging.getLogger("airflow.task")
+logger = logging.getLogger(__name__)
 
 default_args = {
     "owner": "airflow",
@@ -40,19 +41,17 @@ default_args = {
     "retries": 1,
     "retry_delay": timedelta(minutes=1),
     "catchup": False,
-    "max_active_runs": 1
+    "max_active_runs": 1,
+    "render_template_as_native_obj": True
 }
 dag = DAG(
-    'publish_pg_raw_commits_to_iceberg',
+    'publish_pg_raw_pypi_overall_to_iceberg',
     default_args=default_args,
-    description="Task publishes pg raw tables commits to iceberg",
+    description="Task publishes pg raw tables pypi history to iceberg",
     schedule=None,
     # start_date=datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0),
     tags=["dev"]
 )
-
-
-# run_date = "{{ dag_run.conf['execution_date'] if dag_run and dag_run.conf and 'execution_date' in dag_run.conf else ds_nodash }}"
 
 
 def extract_dates(**kwargs):
@@ -65,11 +64,14 @@ def extract_dates(**kwargs):
     logger.info(f'End date {end_date}')
 
     # Set default dates if they are not provided
+    # today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    # end_date = today - timedelta(1)
+    # start_date = end_date - timedelta(180)
     if not start_date:
         start_date = datetime.now().replace(minute=0, second=0, microsecond=0)
 
     if not end_date:
-        end_date = start_date + timedelta(hours=1)
+        end_date = start_date + timedelta(hours=23, minutes=59, seconds=59, microseconds=0)
 
     # Format dates as strings
     start_date_str = start_date.strftime('%Y-%m-%d %H:%M:%S')
@@ -101,7 +103,7 @@ templated_command = """
     export AWS_REGION=us-east-1 &&
     /opt/spark/bin/spark-submit --master spark://spark-master:7077 --deploy-mode client \
         /opt/spark/spark_batch/pg_to_iceberg.py \
-            --table commits \
+            --table overall \
             --start_date '{{{{ ti.xcom_pull(task_ids='extract_dates')['start_date'] }}}}' \
             --end_date '{{{{ ti.xcom_pull(task_ids='extract_dates')['end_date'] }}}}'
 """.format(
@@ -113,18 +115,17 @@ templated_command = """
     os.getenv('POSTGRES_HOST'),
     os.getenv('S3_LOCATION')
 )
-
-spark_commits_transfer = SSHOperator(
-    task_id="spark_commits_transfer",
+spark_pypi_history_transfer = SSHOperator(
+    task_id="spark_pypi_history_transfer",
     command=templated_command,
     ssh_hook=SSHHook,
     dag=dag
 )
 
-trigger_dbt_commits_model = TriggerDagRunOperator(
-    task_id="trigger_dbt_commits_model",
-    trigger_dag_id="gh_app_commits_models",
+trigger_dbt_pypi_history_model = TriggerDagRunOperator(
+    task_id="trigger_dbt_pypi_history_model",
+    trigger_dag_id="pypi_app_overall_models",
     dag=dag
 )
 
-extract_dates_task >> spark_commits_transfer >> trigger_dbt_commits_model
+extract_dates_task >> spark_pypi_history_transfer >> trigger_dbt_pypi_history_model
