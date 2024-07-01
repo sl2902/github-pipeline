@@ -8,6 +8,14 @@ In today's data-rich environment, selecting the right datasets for analysis can 
 ## Problem Description
 Although GitHub and PyPI provide statistics about users' or organizations' repositories and Python packages, they lack comparative analysis across similar repositories and packages. For developers, maintainers, and stakeholders in the Python community, this project will help identify popular packages, active repositories, and overall trends in open source contributions. This data-driven approach will enhance decision-making processes, support better resource allocation, and foster a deeper understanding of the Python programming landscape.
 
+## Motivation
+As the bootcamp covered various tools and technologies, I became curious about the popularity of Lakehouses in terms of repository development and usage. GitHub was used throughout the bootcamp for both independent and collaborative work. Naturally, I relied on GitHub as the primary source for the data. Additionally, I supplemented it with data from the PyPi package repository to understand the popularity of Python-related lakehouse packages in the big data ecosystem.
+
+## Goal
+My goal for this capstone is two fold:
+1. Incorporate the various tools and technologies used in the bootcamp.
+2. Build an end-to-end reproducible data pipeline using Docker and Docker Compose.
+
 ## Conceptual Model
 The primary datasets and APIs that will be used are the PyPI dataset from Google BigQuery and the GitHub API. This model will integrate data from these sources to provide comprehensive insights into Python package usage and repository development.
 
@@ -30,7 +38,7 @@ The source of the data is GitHub Rest APIs and PyPi API. The following APIs are 
 
 # Metrics and Dashboard
 
-Three repos were analyzed: Apache Iceberg, Apache Hudi and Delta-io Delta
+Three repos were analyzed: Apache Iceberg, Apache Hudi and Delta-io Delta. For PyPi last 6 months package downloads were analyzed.
 <details>
 <summary>Summary statistics for repos</summary>
 
@@ -91,6 +99,18 @@ the commiter is GitHub
 
 # Dag dependencies
 ![Dag dependencies](assets/dag_dependencies.png)
+
+# End to end pipeline flow
+Each pipeline corresponds to an end-to-end flow for a given GitHub REST API endpoint, making it easier to test and debug. Additionally, it helps with any future backfill and allows the DAGs to be independently scheduled. The DAGs are externally triggered.
+The upstream tables are created when the Docker container is up and running
+
+gh_rest_pypi_overall_api: This DAG fetches data from the PyPi API. Currently, the API provides data for the last 6 months.
+trigger_spark_pypi_history_transfer: This DAG triggers the downstream DAG upon successful completion of the upstream task.
+publish_pg_raw_overall_to_iceberg: This DAG reads data from the upstream table in PostgreSQL and writes it into a partitioned table in Iceberg, partitioned by load_date.
+trigger_dbt_pypi_history_model: This DAG triggers the downstream DAG upon successful completion of the upstream task.
+pypi_app_overall_models: This DAG builds and transforms the data in Trino using dbt. The bronze layer contains the raw data. Some standard data quality checks are performed, such as checking for freshness. The primary key is tested for uniqueness and not null. The incremental merge strategy is used in the bronze layer to ensure not all the data is loaded every time the models are run.
+
+Note - While the upstream data and spark logs are persisted between Docker restarts, I ran into some unknown issue trying to persist the lakehouse data.
 
 
 # URLs and port numbers
@@ -182,7 +202,12 @@ make dag_run_commits_pipeline
 make dag_run_issues_pipeline
 ```
 
-7.4 Launch Streamlit dashboard:
+7.4 Run `overall` pipeline:
+```shell
+make dag_run_overall_pipeline
+```
+
+7.5 Launch Streamlit dashboard:
 ```shell
  http://localhost:8501
  ```
