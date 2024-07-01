@@ -104,11 +104,11 @@ the commiter is GitHub
 Each pipeline corresponds to an end-to-end flow for a given GitHub REST API endpoint, making it easier to test and debug. Additionally, it helps with any future backfill and allows the DAGs to be independently scheduled. The DAGs are externally triggered.
 The upstream tables are created when the Docker container is up and running
 
-gh_rest_pypi_overall_api: This DAG fetches data from the PyPi API. Currently, the API provides data for the last 6 months.
-trigger_spark_pypi_history_transfer: This DAG triggers the downstream DAG upon successful completion of the upstream task.
-publish_pg_raw_overall_to_iceberg: This DAG reads data from the upstream table in PostgreSQL and writes it into a partitioned table in Iceberg, partitioned by load_date.
-trigger_dbt_pypi_history_model: This DAG triggers the downstream DAG upon successful completion of the upstream task.
-pypi_app_overall_models: This DAG builds and transforms the data in Trino using dbt. The bronze layer contains the raw data. Some standard data quality checks are performed, such as checking for freshness. The primary key is tested for uniqueness and not null. The incremental merge strategy is used in the bronze layer to ensure not all the data is loaded every time the models are run.
+`gh_rest_pypi_overall_api`: This DAG fetches data from the PyPi API. Currently, the API provides data for the last 6 months.<br>
+`trigger_spark_pypi_history_transfer`: This DAG triggers the downstream DAG upon successful completion of the upstream task.<br>
+`publish_pg_raw_overall_to_iceberg`: This DAG reads data from the upstream table in PostgreSQL and writes it into a partitioned table in Iceberg, partitioned by load_date.<br>
+`trigger_dbt_pypi_history_model`: This DAG triggers the downstream DAG upon successful completion of the upstream task.<br>
+`pypi_app_overall_models`: This DAG builds and transforms the data in Trino using dbt. The bronze layer contains the raw data. Some standard data quality checks are performed, such as checking for freshness. The primary key is tested for uniqueness and not null. The incremental merge strategy is used in the bronze layer to ensure not all the data is loaded every time the models are run.<br>
 
 Note - While the upstream data and spark logs are persisted between Docker restarts, I ran into some unknown issue trying to persist the lakehouse data.
 
