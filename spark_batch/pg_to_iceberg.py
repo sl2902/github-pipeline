@@ -99,7 +99,6 @@ def consume_batch_pipeline(
         start_date: str,
         end_date: str
     ):
-    batch_size, offset = 500, 0
     spark.sql(ice_tables[f'{table}'].format(os.path.join(os.getenv("S3_LOCATION"), table)))
     count = 0
     endpoint = "/" if table == "base_repo" else table 
