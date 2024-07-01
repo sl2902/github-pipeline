@@ -87,3 +87,29 @@ summary_stats_base_repo = f"""
         from
             {catalog}.{schema}.fct_all_time_base_repo_stats
         """
+
+pypi_percent_change_pyiceberg_downloads = f"""
+        select
+            package,
+            category,
+            date,
+            downloads,
+            percent_change
+        from
+            {catalog}.{schema}.fct_percent_change_downloads_overall
+        where
+            package = 'pyiceberg'
+        """
+
+pypi_percent_change_deltaspark_downloads = f"""
+        select
+            package,
+            category,
+            date,
+            downloads,
+            percent_change
+        from
+            {catalog}.{schema}.fct_percent_change_downloads_overall
+        where
+            package = 'delta-spark'
+        """
