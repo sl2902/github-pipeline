@@ -66,8 +66,6 @@ def extract_dates(**kwargs):
     # Set default dates if they are not provided
     if not start_date:
         start_date = datetime.now().replace(minute=0, second=0, microsecond=0)
-    else:
-        start_date = datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
 
     if not end_date:
         end_date = start_date + timedelta(hours=1)
