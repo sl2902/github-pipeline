@@ -209,8 +209,8 @@ make dag_run_overall_pipeline
 
 7.5 Launch Streamlit dashboard:
 ```shell
- http://localhost:8501
- ```
+http://localhost:8501
+```
 
 > [!NOTE]
 > If the dashboard is not updated, then stop and start the container:
@@ -218,6 +218,11 @@ make dag_run_overall_pipeline
 > docker compose down streamlit
 > docker compose up -d streamlit
 > ```
+
+7.6 Clean up environment:
+```shell
+make docker_clean
+```
 
 # Next steps
 
