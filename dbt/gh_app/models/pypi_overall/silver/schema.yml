@@ -1,0 +1,21 @@
+models:
+  - name: int_percent_change_downloads_overall
+    description: >
+      Contains percent change of daily downloads by package and category
+    columns:
+    - name: id
+      description: "Unique identifier for the download"
+    - name: package
+      description: "Python package."
+    - name: category
+      description: "Choice of whether the package was downloaded from a mirror site or not"
+    - name: date
+      description: "Date of download."
+    - name: downloads
+      description: "Count of daily downloads."
+    - name: prev_download
+      description: "Count of daily downloads on previous day."
+    - name: percent_change
+      description: "Percent change in daily downloads."
+    - name: load_date
+      description: "Load date."
