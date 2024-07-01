@@ -1,0 +1,27 @@
+version: 2
+
+
+models:
+  - name: stg_overall
+    description: >
+      Contains 180 days of pypi package download history
+    columns:
+      - name: id
+        description: "Unique identifier for the download."
+        data_tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: package
+        description: "Python package."
+      - name: endpoint
+        description: "Name of the uri endpoint."
+      - name: category
+        description: "Choice of whether the package was downloaded from a mirror site or not"
+      - name: date
+        description: "Date of download."
+      - name: downloads
+        description: "Count of daily downloads."
+      - name: load_date
+        description: "Load date."
