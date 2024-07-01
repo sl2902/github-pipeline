@@ -101,7 +101,7 @@ the commiter is GitHub
 ![Dag dependencies](assets/dag_dependencies.png)
 
 # End to end pipeline flow
-Each pipeline corresponds to an end-to-end flow for a given GitHub REST API endpoint, making it easier to test and debug. Additionally, it helps with any future backfill and allows the DAGs to be independently scheduled. The DAGs are externally triggered.
+Each pipeline corresponds to an end-to-end flow for a given GitHub REST API/PyPi API endpoint, making it easier to test and debug. Additionally, it helps with any future backfill and allows the DAGs to be independently scheduled. The DAGs are externally triggered.
 The upstream tables are created when the Docker container is up and running
 
 `gh_rest_pypi_overall_api`: This DAG fetches data from the PyPi API. Currently, the API provides data for the last 6 months.<br>
