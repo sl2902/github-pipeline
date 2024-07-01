@@ -186,12 +186,12 @@ make dag_run_issues_pipeline
 ```shell
  http://localhost:8501
  ```
- [!Note]
- > If the dashboard is not updated. Then stop and start the container
- ```shell
-docker compose down streamlit
-docker compose up -d streamlit
-    ```
+> [!NOTE]
+> If the dashboard is not updated, then stop and start the container:
+> ```shell
+> docker compose down streamlit
+> docker compose up -d streamlit
+> ```
 
 # Next steps
 
