@@ -167,47 +167,42 @@ mv env.template .env
 GITHUB_PAT=
 ```
 
-**5.** Load environment variables into the project directory:
-```shell
-source .env
-```
-
-**6.** Build Docker images:
+**5.** Build Docker images:
 ```shell
 make docker_build
 ```
 
-6.1 Start Docker containers:
+5.1 Start Docker containers:
 ```shell
 make docker_up
 ```
 
-**7.** Create SSH connection for Spark job:
+**6.** Create SSH connection for Spark job:
 ```shell
 make ssh_conn
 ```
 
-7.1 Run `base_repo` pipeline:
+**7.** Run `base_repo` pipeline:
 ```shell
 make dag_run_base_repo_pipeline
 ```
 
-7.2 Run `commits` pipeline:
+7.1 Run `commits` pipeline:
 ```shell
 make dag_run_commits_pipeline
 ```
 
-7.3 Run `issues` pipeline:
+7.2 Run `issues` pipeline:
 ```shell
 make dag_run_issues_pipeline
 ```
 
-7.4 Run `overall` pipeline:
+7.3 Run `overall` pipeline:
 ```shell
 make dag_run_overall_pipeline
 ```
 
-7.5 Launch Streamlit dashboard:
+**8.** Launch Streamlit dashboard:
 ```shell
 http://localhost:8501
 ```
@@ -219,7 +214,7 @@ http://localhost:8501
 > docker compose up -d streamlit
 > ```
 
-7.6 Clean up environment:
+**9.** Clean up environment:
 ```shell
 make docker_clean
 ```
