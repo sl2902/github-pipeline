@@ -7,7 +7,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 from typing import Dict, List, Optional
-from utils.pypi_api_requests import get_recent_endpoints
+from utils.api_requests import get_recent_endpoints
 from utils.db_operations import (get_last_page_and_next_page,
                            check_apis_last_run,
                            insert_raw_endpoints,
