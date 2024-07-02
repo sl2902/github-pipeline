@@ -216,6 +216,7 @@ http://localhost:8501
 
 **9.** Clean up environment:
 ```shell
+make docker_down
 make docker_clean
 ```
 
