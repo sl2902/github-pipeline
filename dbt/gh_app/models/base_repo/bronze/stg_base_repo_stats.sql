@@ -34,7 +34,7 @@ with
 
         {% if is_incremental() %}
         where
-            load_date > (SELECT max(load_date) from {{ this }})
+            load_date > (SELECT coalesce(max(load_date), cast('1970-01-01 00:00:00' as timestamp)) from {{ this }})
 
         {% endif %}
 )
