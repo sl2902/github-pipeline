@@ -16,8 +16,21 @@ docker_down: ## Stop Docker
 dag_list: ## List DAGs
 	@docker-compose run airflow-cli airflow dags list
 
-dag_run_base_repo_pipeline: ## Run base_repo pipeline
+dag_clear_all_dags: ## Clear all DAGs
 	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_base_repo_api
+	@docker-compose run airflow-cli airflow tasks clear -y publish_pg_raw_base_repo_to_iceberg
+	@docker-compose run airflow-cli airflow tasks clear -y gh_app_base_repo_models
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_commits_api
+	@docker-compose run airflow-cli airflow tasks clear -y publish_pg_raw_commits_to_iceberg
+	@docker-compose run airflow-cli airflow tasks clear -y gh_app_commits_models
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_issues_api
+	@docker-compose run airflow-cli airflow tasks clear -y publish_pg_raw_issues_to_iceberg
+	@docker-compose run airflow-cli airflow tasks clear -y gh_app_issues_models
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_pypi_overall_api
+	@docker-compose run airflow-cli airflow tasks clear -y publish_pg_raw_pypi_overall_to_iceberg
+	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_pypi_overall_api
+
+dag_run_base_repo_pipeline: ## Run base_repo pipeline
 	@docker-compose run airflow-cli airflow dags unpause gh_rest_base_repo_api
 	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_base_repo_to_iceberg
 	@docker-compose run airflow-cli airflow dags unpause gh_app_base_repo_models
@@ -25,7 +38,6 @@ dag_run_base_repo_pipeline: ## Run base_repo pipeline
 	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_base_repo_api --state running
 
 dag_run_commits_pipeline: ## Run commits pipeline
-	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_commits_api
 	@docker-compose run airflow-cli airflow dags unpause gh_rest_commits_api
 	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_commits_to_iceberg
 	@docker-compose run airflow-cli airflow dags unpause gh_app_commits_models
@@ -34,7 +46,6 @@ dag_run_commits_pipeline: ## Run commits pipeline
 
 
 dag_run_issues_pipeline: ## Run issues pipeline
-	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_issues_api
 	@docker-compose run airflow-cli airflow dags unpause gh_rest_issues_api
 	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_issues_to_iceberg
 	@docker-compose run airflow-cli airflow dags unpause gh_app_issues_models
@@ -42,7 +53,6 @@ dag_run_issues_pipeline: ## Run issues pipeline
 	@docker compose run airflow-cli airflow dags list-runs -d gh_rest_issues_api --state running
 
 dag_run_overall_pipeline: ## Run pypi overall pipeline
-	@docker-compose run airflow-cli airflow tasks clear -y gh_rest_pypi_overall_api
 	@docker-compose run airflow-cli airflow dags unpause gh_rest_pypi_overall_api
 	@docker-compose run airflow-cli airflow dags unpause publish_pg_raw_pypi_overall_to_iceberg
 	@docker-compose run airflow-cli airflow dags unpause pypi_app_overall_models
